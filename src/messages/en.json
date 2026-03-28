@@ -1,0 +1,105 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "login": {
+    "title": "Thitronik Campus",
+    "subtitle": "Please sign in with your customer number",
+    "companyName": "Company Name",
+    "customerNumber": "Customer Number",
+    "companyNamePlaceholder": "Your company name",
+    "customerNumberPlaceholder": "e.g. TH-12345",
+    "submit": "Sign In",
+    "hint": "You can find your customer number on the back of your participant card.",
+    "qrHint": "Or scan the QR code on your name badge"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {company}!",
+    "selectModule": "Select your training module",
+    "campusLive1": "Campus Live 1.0",
+    "campusLive1Desc": "Basic Training",
+    "campusLive2": "Campus Live 2.0",
+    "campusLive2Desc": "Advanced Training",
+    "campusOnline": "Campus Online",
+    "campusOnlineDesc": "Digital Content",
+    "webinars": "Webinars",
+    "webinarsDesc": "Coming soon"
+  },
+  "campusLive": {
+    "title": "Campus Live {version}",
+    "overview": "Island Overview",
+    "island": "Island {number}",
+    "station": "Station {number}",
+    "stampBook": "Stamp Book",
+    "quiz": "Final Quiz",
+    "progress": "{completed} of {total} stations completed",
+    "allComplete": "All stations completed! You can now start the quiz.",
+    "startQuiz": "Start Quiz",
+    "locked": "Locked – complete all stations first",
+    "stationComplete": "Station completed!",
+    "timeLimit": "Max. 18 minutes"
+  },
+  "stampBook": {
+    "title": "My Stamp Book",
+    "subtitle": "Your progress at a glance",
+    "completed": "Completed",
+    "pending": "Pending",
+    "inProgress": "In Progress"
+  },
+  "scanner": {
+    "title": "QR Code Scanner",
+    "subtitle": "Scan the QR code at the station",
+    "scanning": "Scanning...",
+    "error": "Could not read QR code",
+    "permission": "Camera permission required"
+  },
+  "miniGames": {
+    "memory": {
+      "title": "Memory",
+      "subtitle": "Match the products to the correct images"
+    },
+    "ordering": {
+      "title": "Ordering",
+      "subtitle": "Put the steps in the correct order"
+    },
+    "quiz": {
+      "title": "Quiz",
+      "subtitle": "Answer questions about the product"
+    },
+    "configurator": {
+      "title": "Configurator Challenge",
+      "subtitle": "Put together the optimal package"
+    }
+  },
+  "configurator": {
+    "title": "Product Configurator",
+    "subtitle": "Put together the perfect security package",
+    "selected": "Selected",
+    "required": "Required",
+    "optional": "Optional",
+    "dependencyHint": "Requires: {products}",
+    "totalProducts": "{count} products selected",
+    "generateProposal": "Generate Configuration"
+  },
+  "feedback": {
+    "title": "Event Feedback",
+    "subtitle": "How did you like Campus Live?",
+    "overall": "Overall Rating",
+    "content": "Content",
+    "organization": "Organization",
+    "comment": "Comments",
+    "commentPlaceholder": "Your comments...",
+    "submit": "Submit Feedback",
+    "thankYou": "Thank you for your feedback!"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Abschließen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "login": {
+    "title": "Thitronik Campus",
+    "subtitle": "Bitte melden Sie sich mit Ihrer Kundennummer an",
+    "companyName": "Firmenname",
+    "customerNumber": "Kundennummer",
+    "companyNamePlaceholder": "Ihr Firmenname",
+    "customerNumberPlaceholder": "z.B. TH-12345",
+    "submit": "Anmelden",
+    "hint": "Ihre Kundennummer finden Sie auf der Rückseite Ihrer Teilnehmerkarte.",
+    "qrHint": "Oder scannen Sie den QR-Code auf Ihrem Namensschild"
+  },
+  "dashboard": {
+    "welcome": "Willkommen, {company}!",
+    "selectModule": "Wählen Sie Ihr Schulungsmodul",
+    "campusLive1": "Campus Live 1.0",
+    "campusLive1Desc": "Grundlagen-Schulung",
+    "campusLive2": "Campus Live 2.0",
+    "campusLive2Desc": "Aufbau-Schulung",
+    "campusOnline": "Campus Online",
+    "campusOnlineDesc": "Digitale Inhalte",
+    "webinars": "Webinare",
+    "webinarsDesc": "Demnächst verfügbar"
+  },
+  "campusLive": {
+    "title": "Campus Live {version}",
+    "overview": "Insel-Übersicht",
+    "island": "Insel {number}",
+    "station": "Station {number}",
+    "stampBook": "Stempelheft",
+    "quiz": "Abschluss-Quiz",
+    "progress": "{completed} von {total} Stationen abgeschlossen",
+    "allComplete": "Alle Stationen abgeschlossen! Sie können jetzt das Quiz starten.",
+    "startQuiz": "Quiz starten",
+    "locked": "Gesperrt – erst alle Stationen abschließen",
+    "stationComplete": "Station abgeschlossen!",
+    "timeLimit": "Max. 18 Minuten"
+  },
+  "stampBook": {
+    "title": "Mein Stempelheft",
+    "subtitle": "Ihr Fortschritt auf einen Blick",
+    "completed": "Abgeschlossen",
+    "pending": "Ausstehend",
+    "inProgress": "In Bearbeitung"
+  },
+  "scanner": {
+    "title": "QR-Code Scanner",
+    "subtitle": "Scannen Sie den QR-Code an der Station",
+    "scanning": "Scannen...",
+    "error": "QR-Code konnte nicht gelesen werden",
+    "permission": "Kamera-Berechtigung erforderlich"
+  },
+  "miniGames": {
+    "memory": {
+      "title": "Memory",
+      "subtitle": "Ordnen Sie die Produkte den richtigen Bildern zu"
+    },
+    "ordering": {
+      "title": "Reihenfolge",
+      "subtitle": "Bringen Sie die Schritte in die richtige Reihenfolge"
+    },
+    "quiz": {
+      "title": "Quiz",
+      "subtitle": "Beantworten Sie die Fragen zum Produkt"
+    },
+    "configurator": {
+      "title": "Konfigurator-Challenge",
+      "subtitle": "Stellen Sie das optimale Paket zusammen"
+    }
+  },
+  "configurator": {
+    "title": "Produktkonfigurator",
+    "subtitle": "Stellen Sie das perfekte Sicherheitspaket zusammen",
+    "selected": "Ausgewählt",
+    "required": "Pflicht",
+    "optional": "Optional",
+    "dependencyHint": "Benötigt: {products}",
+    "totalProducts": "{count} Produkte ausgewählt",
+    "generateProposal": "Konfiguration generieren"
+  },
+  "feedback": {
+    "title": "Veranstaltungs-Feedback",
+    "subtitle": "Wie hat Ihnen der Campus Live gefallen?",
+    "overall": "Gesamtbewertung",
+    "content": "Inhalt",
+    "organization": "Organisation",
+    "comment": "Anmerkungen",
+    "commentPlaceholder": "Ihre Anmerkungen...",
+    "submit": "Feedback absenden",
+    "thankYou": "Vielen Dank für Ihr Feedback!"
+  }
+}
