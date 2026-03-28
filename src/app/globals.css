@@ -2,6 +2,92 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* ── Thitronik Brand Tokens ───────────────────────────────────────────────── */
+@theme {
+  /* Brand */
+  --color-brand-orange:        #F97316;
+  --color-brand-orange-dark:   #EA580C;
+  --color-brand-orange-glow:   #F9731640;
+
+  /* Dark surface layers */
+  --color-surface-900: #0B0F1A;
+  --color-surface-800: #111827;
+  --color-surface-700: #1E2A3B;
+  --color-surface-600: #253347;
+
+  /* Game states */
+  --color-success: #22C55E;
+  --color-error:   #EF4444;
+  --color-warn:    #EAB308;
+  --color-info:    #3B82F6;
+}
+
+/* ── Game Card Glass Effect ───────────────────────────────────────────────── */
+.game-card {
+  background: rgba(30, 42, 59, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(249, 115, 22, 0.15);
+  border-radius: 1rem;
+}
+
+.game-card-hover {
+  transition: border-color 200ms, box-shadow 200ms;
+}
+.game-card-hover:hover {
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
+}
+
+/* ── Flip Card ────────────────────────────────────────────────────────────── */
+.memory-card { perspective: 1000px; }
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 0.75rem;
+}
+.memory-card-back { transform: rotateY(180deg); }
+
+/* ── Orange glow button ───────────────────────────────────────────────────── */
+.btn-brand {
+  background: linear-gradient(135deg, #F97316, #EA580C);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  transition: box-shadow 200ms, transform 150ms;
+  cursor: pointer;
+}
+.btn-brand:hover {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+  transform: translateY(-1px);
+}
+.btn-brand:active { transform: translateY(0); }
+
+/* ── Pulse ring for timer ─────────────────────────────────────────────────── */
+@keyframes ring-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.ring-pulse { animation: ring-pulse 1s ease-in-out infinite; }
+
+/* ── Confetti shake ───────────────────────────────────────────────────────── */
+@keyframes celebrate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25%       { transform: scale(1.05) rotate(-2deg); }
+  75%       { transform: scale(1.05) rotate(2deg); }
+}
+.celebrate { animation: celebrate 0.5s ease-in-out; }
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
