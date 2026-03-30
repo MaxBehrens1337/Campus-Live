@@ -4,6 +4,9 @@ export const loginSchema = z.object({
   customerNumber: z
     .string()
     .min(3, "Kundennummer muss mindestens 3 Zeichen haben"),
+  passwort: z
+    .string()
+    .min(1, "Bitte Passwort eingeben"),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
