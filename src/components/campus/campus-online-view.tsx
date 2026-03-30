@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ShoppingCart, Wrench, AlertTriangle } from "lucide-react";
+import { ChevronLeft, ShoppingCart, Wrench, AlertTriangle, Settings } from "lucide-react";
 
 const BEREICHE = [
   {
@@ -36,15 +36,26 @@ export function CampusOnlineView() {
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F0F0]">
       {/* Header */}
-      <header className="bg-[#1D3661] text-white px-5 py-4 flex items-center gap-3">
+      <header className="bg-[#1D3661] text-white px-5 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.back()}
+            className="w-9 h-9 rounded-[12px] bg-white/10 flex items-center justify-center active:opacity-70"
+            aria-label="Zurück"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-lg font-bold">Campus Online</h1>
+        </div>
+
+        {/* Admin shortcut */}
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push("./admin")}
           className="w-9 h-9 rounded-[12px] bg-white/10 flex items-center justify-center active:opacity-70"
-          aria-label="Zurück"
+          aria-label="Admin"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <Settings className="w-5 h-5" />
         </button>
-        <h1 className="text-lg font-bold">Campus Online</h1>
       </header>
 
       {/* Content */}
