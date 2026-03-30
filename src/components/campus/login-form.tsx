@@ -2,20 +2,16 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { loginSchema, type LoginFormData } from "@/lib/schemas/campus";
 import { useCampusSession } from "@/lib/stores/campus-session";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
-  const t = useTranslations("login");
   const router = useRouter();
   const setSession = useCampusSession((s) => s.setSession);
+  const supabase = createClient();
 
   const {
     register,
@@ -26,54 +22,104 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    // TODO: Validate against Supabase
+    const { data: haendler, error } = await supabase
+      .from("haendler")
+      .select("*")
+      .eq("kundennummer", data.customerNumber)
+      .single();
+
+    if (error || !haendler) {
+      toast.error("Kundennummer nicht gefunden. Bitte prüfen Sie Ihre Eingabe.");
+      return;
+    }
+
     setSession({
-      registrationId: crypto.randomUUID(),
-      companyName: data.companyName,
-      customerNumber: data.customerNumber,
-      eventId: "placeholder-event-id",
+      registrationId: haendler.id,
+      companyName: haendler.firmenname ?? data.customerNumber,
+      customerNumber: haendler.kundennummer,
+      eventId: "campus-online",
     });
+
     router.push("../campus");
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">{t("title")}</CardTitle>
-        <CardDescription>{t("subtitle")}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="companyName">{t("companyName")}</Label>
-            <Input
-              id="companyName"
-              placeholder={t("companyNamePlaceholder")}
-              {...register("companyName")}
-            />
-            {errors.companyName && (
-              <p className="text-sm text-destructive">{errors.companyName.message}</p>
-            )}
-          </div>
+    <div className="w-full max-w-sm mx-auto">
+      {/* Logo */}
+      <div className="flex justify-center mb-10">
+        <ThitronikLogo />
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="customerNumber">{t("customerNumber")}</Label>
-            <Input
-              id="customerNumber"
-              placeholder={t("customerNumberPlaceholder")}
-              {...register("customerNumber")}
-            />
-            {errors.customerNumber && (
-              <p className="text-sm text-destructive">{errors.customerNumber.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground">{t("hint")}</p>
-          </div>
+      {/* Card */}
+      <div className="bg-white rounded-[24px] p-8">
+        <h1 className="text-[28px] font-bold text-[#1D3661] mb-2">
+          Willkommen
+        </h1>
+        <p className="text-sm text-[#666666] mb-8">
+          Bitte geben Sie Ihre Kundennummer ein, um sich anzumelden.
+        </p>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "..." : t("submit")}
-          </Button>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <label
+            htmlFor="customerNumber"
+            className="block text-sm font-semibold text-[#111111] mb-2"
+          >
+            Kundennummer
+          </label>
+          <input
+            id="customerNumber"
+            type="text"
+            inputMode="numeric"
+            placeholder="z. B. 12345"
+            autoComplete="off"
+            className="w-full h-[52px] px-4 rounded-[16px] border border-[#E0E0E0] bg-[#F0F0F0] text-[#111111] text-base placeholder:text-[#999999] outline-none focus:border-[#3BA9D3] focus:bg-white transition-colors"
+            {...register("customerNumber")}
+          />
+          {errors.customerNumber && (
+            <p className="mt-2 text-sm text-[#CE132D]">
+              {errors.customerNumber.message}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="mt-6 w-full h-[52px] rounded-[16px] bg-[#1D3661] text-white font-semibold text-base transition-opacity disabled:opacity-40 active:opacity-80"
+          >
+            {isSubmitting ? "Anmelden …" : "Anmelden"}
+          </button>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+
+      <p className="mt-6 text-center text-xs text-[#999999]">
+        Thitronik GmbH · Campus Online
+      </p>
+    </div>
+  );
+}
+
+function ThitronikLogo() {
+  return (
+    <svg
+      width="180"
+      height="44"
+      viewBox="0 0 180 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Thitronik"
+    >
+      <path d="M10 38 L10 8 L34 22 Z" fill="#CE132D" />
+      <text
+        x="42"
+        y="30"
+        fontFamily="Inter, system-ui, sans-serif"
+        fontWeight="700"
+        fontSize="22"
+        fill="#1D3661"
+        letterSpacing="1"
+      >
+        THITRONIK
+      </text>
+    </svg>
   );
 }

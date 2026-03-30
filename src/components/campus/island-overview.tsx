@@ -1,21 +1,14 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, Lock } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2, Circle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useStampBook } from "@/lib/stores/stamp-book";
-import { cn } from "@/lib/utils";
 
 interface IslandOverviewProps {
   version: string;
 }
 
-// Placeholder island data – will be fetched from Supabase
-const PLACEHOLDER_ISLANDS = [
+const ISLANDS = [
   {
     id: "island-1",
     title: "Insel 1: Alarmsysteme",
@@ -37,67 +30,114 @@ const PLACEHOLDER_ISLANDS = [
 ];
 
 export function IslandOverview({ version }: IslandOverviewProps) {
-  const t = useTranslations("campusLive");
   const router = useRouter();
-  const { isStationComplete, getCompletedCount, stamps } = useStampBook();
+  const { isStationComplete, getCompletedCount } = useStampBook();
 
-  const totalStations = PLACEHOLDER_ISLANDS.reduce((acc, i) => acc + i.stationCount, 0);
+  const totalStations = ISLANDS.reduce((acc, i) => acc + i.stationCount, 0);
   const completedCount = getCompletedCount();
+  const pct =
+    totalStations > 0 ? Math.round((completedCount / totalStations) * 100) : 0;
   const allComplete = completedCount >= totalStations;
 
   return (
-    <div className="container mx-auto py-8 px-4 space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">{t("title", { version })}</h1>
-        <p className="text-muted-foreground">
-          {t("progress", { completed: completedCount, total: totalStations })}
-        </p>
-        <Progress value={(completedCount / totalStations) * 100} className="h-2" />
-      </div>
+    <div className="flex flex-col min-h-screen bg-[#F0F0F0]">
+      {/* Header */}
+      <header className="bg-[#1D3661] text-white px-5 py-4 flex items-center gap-3">
+        <button
+          onClick={() => router.back()}
+          className="w-9 h-9 rounded-[12px] bg-white/10 flex items-center justify-center active:opacity-70"
+          aria-label="Zurück"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h1 className="text-lg font-bold">Campus Live {version}</h1>
+      </header>
 
-      <div className="grid gap-4">
-        {PLACEHOLDER_ISLANDS.map((island, idx) => {
-          const islandCompleted = island.stationIds.every((id) => isStationComplete(id));
-          const islandProgress = island.stationIds.filter((id) => isStationComplete(id)).length;
+      <main className="flex-1 p-5 flex flex-col gap-4">
+        {/* Progress card */}
+        <div className="bg-white rounded-[24px] p-5">
+          <div className="flex items-end justify-between mb-3">
+            <div>
+              <p className="text-xs text-[#666666] font-medium uppercase tracking-wide">
+                Fortschritt
+              </p>
+              <p className="text-[28px] font-bold text-[#1D3661] leading-none mt-1">
+                {pct}%
+              </p>
+            </div>
+            <p className="text-sm text-[#666666]">
+              {completedCount} / {totalStations} Stationen
+            </p>
+          </div>
+          <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#AFCA05] rounded-full transition-all duration-500"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Island cards */}
+        {ISLANDS.map((island) => {
+          const islandCompleted = island.stationIds.every((id) =>
+            isStationComplete(id)
+          );
+          const islandProgress = island.stationIds.filter((id) =>
+            isStationComplete(id)
+          ).length;
+          const islandPct =
+            island.stationCount > 0
+              ? Math.round((islandProgress / island.stationCount) * 100)
+              : 0;
 
           return (
-            <Card
+            <button
               key={island.id}
-              className="cursor-pointer hover:shadow-md transition-all"
               onClick={() => router.push(`./${version}/${island.id}`)}
+              className="bg-white rounded-[24px] p-5 text-left flex flex-col gap-3 active:opacity-75 transition-opacity"
             >
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg">{island.title}</CardTitle>
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-bold text-[#1D3661]">
+                  {island.title}
+                </h3>
                 {islandCompleted ? (
-                  <CheckCircle2 className="h-5 w-5 text-green-500" />
+                  <CheckCircle2 className="w-5 h-5 text-[#AFCA05] shrink-0" />
                 ) : (
-                  <Circle className="h-5 w-5 text-muted-foreground" />
+                  <Circle className="w-5 h-5 text-[#CCCCCC] shrink-0" />
                 )}
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-2">
-                  <Progress
-                    value={(islandProgress / island.stationCount) * 100}
-                    className="h-1.5 flex-1"
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-1.5 bg-[#E0E0E0] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#AFCA05] rounded-full"
+                    style={{ width: `${islandPct}%` }}
                   />
-                  <span className="text-xs text-muted-foreground">
-                    {islandProgress}/{island.stationCount}
-                  </span>
                 </div>
-              </CardContent>
-            </Card>
+                <span className="text-xs text-[#666666] shrink-0">
+                  {islandProgress}/{island.stationCount}
+                </span>
+                <ChevronRight className="w-4 h-4 text-[#CCCCCC] shrink-0" />
+              </div>
+            </button>
           );
         })}
-      </div>
 
-      {allComplete && (
-        <div className="text-center space-y-4">
-          <p className="text-green-600 font-medium">{t("allComplete")}</p>
-          <Button size="lg" onClick={() => router.push("./quiz")}>
-            {t("startQuiz")}
-          </Button>
-        </div>
-      )}
+        {/* All complete CTA */}
+        {allComplete && (
+          <div className="bg-white rounded-[24px] p-5 text-center border-2 border-[#AFCA05]">
+            <p className="text-sm font-semibold text-[#6a7c03] mb-4">
+              Alle Stationen abgeschlossen!
+            </p>
+            <button
+              onClick={() => router.push(`./${version}/quiz`)}
+              className="h-[52px] px-8 rounded-[16px] bg-[#1D3661] text-white font-semibold text-base active:opacity-80"
+            >
+              Quiz starten
+            </button>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

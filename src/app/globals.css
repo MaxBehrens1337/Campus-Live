@@ -2,113 +2,26 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* ── Thitronik Brand Tokens ───────────────────────────────────────────────── */
+/* ── Thitronik Corporate Identity Tokens ─────────────────────────────────── */
 @theme {
-  /* Brand */
-  --color-brand-orange:        #F97316;
-  --color-brand-orange-dark:   #EA580C;
-  --color-brand-orange-glow:   #F9731640;
+  /* Brand Colors */
+  --color-brand-primary:   #1D3661;
+  --color-brand-secondary: #3BA9D3;
+  --color-brand-accent:    #AFCA05;
+  --color-brand-red:       #CE132D;
 
-  /* Dark surface layers */
-  --color-surface-900: #0B0F1A;
-  --color-surface-800: #111827;
-  --color-surface-700: #1E2A3B;
-  --color-surface-600: #253347;
-
-  /* Game states */
-  --color-success: #22C55E;
-  --color-error:   #EF4444;
-  --color-warn:    #EAB308;
-  --color-info:    #3B82F6;
+  /* Game states (kept for stamp/progress) */
+  --color-success: #AFCA05;
+  --color-error:   #CE132D;
 }
-
-/* ── Game Card Glass Effect ───────────────────────────────────────────────── */
-.game-card {
-  background: rgba(30, 42, 59, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(249, 115, 22, 0.15);
-  border-radius: 1rem;
-}
-
-.game-card-hover {
-  transition: border-color 200ms, box-shadow 200ms;
-}
-.game-card-hover:hover {
-  border-color: rgba(249, 115, 22, 0.5);
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
-}
-
-/* ── Flip Card ────────────────────────────────────────────────────────────── */
-.memory-card { perspective: 1000px; }
-.memory-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
-.memory-card-front,
-.memory-card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: 0.75rem;
-}
-.memory-card-back { transform: rotateY(180deg); }
-
-/* ── Orange glow button ───────────────────────────────────────────────────── */
-.btn-brand {
-  background: linear-gradient(135deg, #F97316, #EA580C);
-  color: white;
-  font-weight: 600;
-  border-radius: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  transition: box-shadow 200ms, transform 150ms;
-  cursor: pointer;
-}
-.btn-brand:hover {
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
-  transform: translateY(-1px);
-}
-.btn-brand:active { transform: translateY(0); }
-
-/* ── Pulse ring for timer ─────────────────────────────────────────────────── */
-@keyframes ring-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
-.ring-pulse { animation: ring-pulse 1s ease-in-out infinite; }
-
-/* ── Confetti shake ───────────────────────────────────────────────────────── */
-@keyframes celebrate {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25%       { transform: scale(1.05) rotate(-2deg); }
-  75%       { transform: scale(1.05) rotate(2deg); }
-}
-.celebrate { animation: celebrate 0.5s ease-in-out; }
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -125,82 +38,35 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: 24px;
+  --radius-xl: 24px;
 }
 
+/* ── Thitronik CI Design System ───────────────────────────────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Light theme (only theme – no dark mode) */
+  --background:              #F0F0F0;
+  --foreground:              #111111;
+  --card:                    #FFFFFF;
+  --card-foreground:         #111111;
+  --popover:                 #FFFFFF;
+  --popover-foreground:      #111111;
+  --primary:                 #1D3661;
+  --primary-foreground:      #FFFFFF;
+  --secondary:               #3BA9D3;
+  --secondary-foreground:    #FFFFFF;
+  --muted:                   #E0E0E0;
+  --muted-foreground:        #666666;
+  --accent:                  #AFCA05;
+  --accent-foreground:       #111111;
+  --destructive:             #CE132D;
+  --destructive-foreground:  #FFFFFF;
+  --border:                  #E0E0E0;
+  --input:                   #FFFFFF;
+  --ring:                    #3BA9D3;
+  --radius:                  16px;
 }
 
 @layer base {
@@ -209,8 +75,47 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    font-family: var(--font-inter), system-ui, sans-serif;
   }
 }
+
+/* ── App Header ───────────────────────────────────────────────────────────── */
+.thi-header {
+  background: #1D3661;
+  color: #FFFFFF;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────────────── */
+.thi-progress {
+  height: 6px;
+  background: #E0E0E0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.thi-progress-fill {
+  height: 100%;
+  background: #AFCA05;
+  border-radius: 999px;
+  transition: width 400ms ease;
+}
+
+/* ── Flip Card (kept for stamp book) ─────────────────────────────────────── */
+.memory-card { perspective: 1000px; }
+.memory-card-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+.memory-card-front,
+.memory-card-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 16px;
+}
+.memory-card-back { transform: rotateY(180deg); }

@@ -1,11 +1,9 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  companyName: z.string().min(2, "Firmenname muss mindestens 2 Zeichen haben"),
   customerNumber: z
     .string()
-    .min(3, "Kundennummer ungültig")
-    .regex(/^[A-Z]{2}-\d+$/, "Format: TH-12345"),
+    .min(3, "Kundennummer muss mindestens 3 Zeichen haben"),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;

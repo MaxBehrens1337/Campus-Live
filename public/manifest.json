@@ -1,11 +1,11 @@
 {
-  "name": "Thitronik Campus",
+  "name": "Thitronik Campus Online",
   "short_name": "Campus",
   "description": "Thitronik Händler-Schulungsplattform",
   "start_url": "/de/campus/login",
   "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#1a1a2e",
+  "background_color": "#F0F0F0",
+  "theme_color": "#1D3661",
   "orientation": "portrait",
   "icons": [
     {

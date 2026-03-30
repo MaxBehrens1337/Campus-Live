@@ -1,14 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { CheckCircle2, Circle, Clock } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { CheckCircle2, Circle } from "lucide-react";
 import { useStampBook } from "@/lib/stores/stamp-book";
-import { cn } from "@/lib/utils";
 
-// Placeholder – will come from Supabase
 const ISLANDS = [
   {
     id: "island-1",
@@ -39,65 +33,97 @@ const ISLANDS = [
 ];
 
 export function StampBookView() {
-  const t = useTranslations("stampBook");
   const { isStationComplete, getCompletedCount } = useStampBook();
 
   const total = ISLANDS.reduce((acc, i) => acc + i.stations.length, 0);
   const completed = getCompletedCount();
+  const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("subtitle")}</p>
-        <div className="flex items-center gap-3">
-          <Progress value={(completed / total) * 100} className="flex-1" />
-          <span className="text-sm font-medium">
-            {completed}/{total}
-          </span>
+    <div className="space-y-5">
+      {/* Progress summary */}
+      <div className="bg-white rounded-[24px] p-5">
+        <div className="flex items-end justify-between mb-3">
+          <div>
+            <p className="text-xs text-[#666666] font-medium uppercase tracking-wide">
+              Gesamtfortschritt
+            </p>
+            <p className="text-[28px] font-bold text-[#1D3661] leading-none mt-1">
+              {pct}%
+            </p>
+          </div>
+          <p className="text-sm text-[#666666]">
+            {completed} / {total} Stationen
+          </p>
+        </div>
+        <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[#AFCA05] rounded-full transition-all duration-500"
+            style={{ width: `${pct}%` }}
+          />
         </div>
       </div>
 
+      {/* Islands */}
       {ISLANDS.map((island) => {
-        const islandCompleted = island.stations.every((s) => isStationComplete(s.id));
-        const islandCount = island.stations.filter((s) => isStationComplete(s.id)).length;
+        const islandCompleted = island.stations.every((s) =>
+          isStationComplete(s.id)
+        );
+        const islandCount = island.stations.filter((s) =>
+          isStationComplete(s.id)
+        ).length;
 
         return (
-          <Card key={island.id} className={cn(islandCompleted && "border-green-500")}>
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-base">{island.title}</CardTitle>
-              <Badge variant={islandCompleted ? "default" : "outline"}>
+          <div key={island.id} className="bg-white rounded-[24px] p-5">
+            {/* Island header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-bold text-[#1D3661]">
+                {island.title}
+              </h3>
+              <span
+                className="text-xs font-semibold rounded-[999px] px-2.5 py-1"
+                style={{
+                  background: islandCompleted ? "#AFCA0520" : "#F0F0F0",
+                  color: islandCompleted ? "#6a7c03" : "#666666",
+                }}
+              >
                 {islandCount}/{island.stations.length}
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-2">
-                {island.stations.map((station) => {
-                  const done = isStationComplete(station.id);
-                  return (
-                    <div
-                      key={station.id}
-                      className="flex items-center gap-2 text-sm"
+              </span>
+            </div>
+
+            {/* Station list */}
+            <div className="flex flex-col gap-2">
+              {island.stations.map((station) => {
+                const done = isStationComplete(station.id);
+                return (
+                  <div
+                    key={station.id}
+                    className="flex items-center gap-3 py-2"
+                  >
+                    {done ? (
+                      <CheckCircle2 className="w-5 h-5 text-[#AFCA05] shrink-0" />
+                    ) : (
+                      <Circle className="w-5 h-5 text-[#CCCCCC] shrink-0" />
+                    )}
+                    <span
+                      className="text-sm"
+                      style={{
+                        color: done ? "#999999" : "#111111",
+                        textDecoration: done ? "line-through" : "none",
+                      }}
                     >
-                      {done ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
-                      ) : (
-                        <Circle className="h-4 w-4 text-muted-foreground shrink-0" />
-                      )}
-                      <span className={cn(done && "line-through text-muted-foreground")}>
-                        {station.title}
+                      {station.title}
+                    </span>
+                    {done && (
+                      <span className="ml-auto text-xs text-[#AFCA05] font-semibold">
+                        ✓
                       </span>
-                      {done && (
-                        <Badge variant="secondary" className="ml-auto text-xs">
-                          {t("completed")}
-                        </Badge>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         );
       })}
     </div>
