@@ -6,13 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
-import { loginSchema, type LoginFormData } from "@/lib/schemas/campus";
-import { useCampusSession } from "@/lib/stores/campus-session";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/client";
+
+const loginSchema = z.object({
+  email: z.string().email("Bitte gültige E-Mail-Adresse eingeben"),
+  passwort: z.string().min(1, "Bitte Passwort eingeben"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const setSession = useCampusSession((s) => s.setSession);
   const supabase = createClient();
   const [showPw, setShowPw] = useState(false);
 
@@ -25,23 +30,15 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const { data: rows, error } = await supabase.rpc("login_haendler", {
-      p_kundennummer: data.customerNumber,
-      p_passwort:     data.passwort,
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.passwort,
     });
 
-    if (error || !rows || rows.length === 0) {
-      toast.error("Kundennummer oder Passwort falsch.");
+    if (error) {
+      toast.error("Anmeldung fehlgeschlagen. Bitte prüfen Sie Ihre Zugangsdaten.");
       return;
     }
-
-    const haendler = rows[0];
-    setSession({
-      registrationId: haendler.id,
-      companyName:    haendler.firmenname ?? data.customerNumber,
-      customerNumber: haendler.kundennummer,
-      eventId:        "campus-online",
-    });
 
     router.push("../campus");
   };
@@ -59,30 +56,29 @@ export function LoginForm() {
           Willkommen
         </h1>
         <p className="text-sm text-[#666666] mb-8">
-          Bitte melden Sie sich mit Ihrer Kundennummer und Ihrem Passwort an.
+          Bitte melden Sie sich mit Ihrer E-Mail-Adresse und Ihrem Passwort an.
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
-          {/* Kundennummer */}
+          {/* Email */}
           <div>
             <label
-              htmlFor="customerNumber"
+              htmlFor="email"
               className="block text-sm font-semibold text-[#111111] mb-2"
             >
-              Kundennummer
+              E-Mail-Adresse
             </label>
             <input
-              id="customerNumber"
-              type="text"
-              inputMode="numeric"
-              placeholder="z. B. 12345"
-              autoComplete="username"
+              id="email"
+              type="email"
+              placeholder="name@firma.de"
+              autoComplete="email"
               className="w-full h-[52px] px-4 rounded-[16px] border border-[#E0E0E0] bg-[#F0F0F0] text-[#111111] text-base placeholder:text-[#999999] outline-none focus:border-[#3BA9D3] focus:bg-white transition-colors"
-              {...register("customerNumber")}
+              {...register("email")}
             />
-            {errors.customerNumber && (
+            {errors.email && (
               <p className="mt-1.5 text-sm text-[#CE132D]">
-                {errors.customerNumber.message}
+                {errors.email.message}
               </p>
             )}
           </div>
@@ -139,26 +135,9 @@ export function LoginForm() {
 
 function ThitronikLogo() {
   return (
-    <svg
-      width="180"
-      height="44"
-      viewBox="0 0 180 44"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="Thitronik"
-    >
+    <svg width="180" height="44" viewBox="0 0 180 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Thitronik">
       <path d="M10 38 L10 8 L34 22 Z" fill="#CE132D" />
-      <text
-        x="42"
-        y="30"
-        fontFamily="Inter, system-ui, sans-serif"
-        fontWeight="700"
-        fontSize="22"
-        fill="#1D3661"
-        letterSpacing="1"
-      >
-        THITRONIK
-      </text>
+      <text x="42" y="30" fontFamily="Inter, system-ui, sans-serif" fontWeight="700" fontSize="22" fill="#1D3661" letterSpacing="1">THITRONIK</text>
     </svg>
   );
 }

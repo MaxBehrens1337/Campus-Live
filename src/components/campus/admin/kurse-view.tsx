@@ -18,7 +18,7 @@ export function AdminKurseView() {
   const [kurse, setKurse] = useState<Kurs[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ titel: "", beschreibung: "", dauer_min: "" });
+  const [form, setForm] = useState({ titel: "", beschreibung: "" });
   const [saving, setSaving] = useState(false);
 
   async function laden() {
@@ -40,10 +40,9 @@ export function AdminKurseView() {
       titel: form.titel.trim(),
       slug: `${slug}-${Date.now()}`,
       beschreibung: form.beschreibung.trim() || null,
-      dauer_min: form.dauer_min ? Number(form.dauer_min) : null,
-      reihenfolge: kurse.length + 1,
+      reihenfolge: (kurse.length + 1) * 10,
     });
-    setForm({ titel: "", beschreibung: "", dauer_min: "" });
+    setForm({ titel: "", beschreibung: "" });
     setShowForm(false);
     setSaving(false);
     await laden();
@@ -106,11 +105,7 @@ export function AdminKurseView() {
                         style={{ color: cfg.color, background: cfg.bg }}>
                         {cfg.label}
                       </span>
-                      {kurs.dauer_min && (
-                        <span className="flex items-center gap-1 text-xs text-[#999999]">
-                          <Clock className="w-3 h-3" />{kurs.dauer_min} Min.
-                        </span>
-                      )}
+                      <span className="text-xs text-[#999999]">{kurs.fragen_anzahl} Fragen</span>
                     </div>
                   </div>
                 </div>
@@ -151,12 +146,7 @@ export function AdminKurseView() {
                   rows={3} placeholder="Kurze Beschreibung…"
                   className="w-full px-4 py-3 rounded-[16px] border border-[#E0E0E0] bg-[#F0F0F0] text-base outline-none focus:border-[#3BA9D3] focus:bg-white resize-none" />
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#111111] mb-1.5">Geschätzte Dauer (Min.)</label>
-                <input type="number" value={form.dauer_min} onChange={e => setForm(f => ({...f, dauer_min: e.target.value}))}
-                  placeholder="—"
-                  className="w-full h-[52px] px-4 rounded-[16px] border border-[#E0E0E0] bg-[#F0F0F0] text-base outline-none focus:border-[#3BA9D3] focus:bg-white" />
-              </div>
+
               <div className="flex gap-3 pt-2">
                 <button onClick={() => setShowForm(false)} className="flex-1 h-[52px] rounded-[16px] border border-[#E0E0E0] text-[#666666] font-semibold">Abbrechen</button>
                 <button onClick={handleSave} disabled={saving || !form.titel.trim()}

@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# THITRONIK Campus Academy 🎓
 
-## Getting Started
+Welcome to the **THITRONIK Campus Academy**, the state-of-the-art Learning Management System (LMS) built specifically for THITRONIK partners, dealers, and employees. 
 
-First, run the development server:
+This platform replaces legacy PDF and flat-file trainings with a dynamic, gamified, and fully tracked digital learning experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![THITRONIK Logo](https://thitronik.de/wp-content/themes/thitronik/assets/img/logo.svg)
+
+## 🚀 Tech Stack
+
+- **Frontend Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **UI & Styling**: [Tailwind CSS](https://tailwindcss.com/) + [Framer Motion](https://www.framer.com/motion/) (Gamification, Micro-interactions) + UI Glassmorphism
+- **Backend & Database**: [Supabase](https://supabase.com/) (PostgreSQL)
+- **Authentication**: Supabase Auth (Email/Password)
+- **Language**: TypeScript (Strict Mode)
+
+## ✨ Core Features
+
+1. **Gamified Learner Dashboard**: Deep dark mode aesthetic, animated Progress Rings (`framer-motion`), and intuitive course progression.
+2. **Content Renderer**: A robust rendering engine that dynamically loads `Inhaltsbloecke` (Markdown text, image placeholders, video placeholders) from the database.
+3. **Interactive Quizzes**: Multiple choice and image-selection quizzes with automatic minimum-score validation and "Confetti" celebratory effects upon passing.
+4. **Editorial Integrity System**: Every course and lesson tracks a `quell_status` (e.g., `vollstaendig`, `medien_fehlen`), allowing the UI to gracefully map missing media or incomplete sections without breaking.
+5. **Admin & Content Management**: A role-based Admin Panel (`/campus/admin`) to oversee module statistics, creation, and user management.
+
+## 🛠️ Local Development
+
+### 1. Prerequisites
+- Node.js 18+
+- A Supabase Project (Free Tier is sufficient)
+
+### 2. Environment Variables
+Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<your-project-id>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Database Setup (Supabase)
+The database structure is completely configured via SQL scripts.
+1. Open the Supabase Dashboard -> SQL Editor.
+2. Open `supabase/migrations/004_all_in_one.sql` from this repository.
+3. Copy the entire content and run it. This will:
+   - Reset the old schema.
+   - Create all 15 tables and views with types.
+   - Apply Row Level Security (RLS) policies.
+   - Insert all 13 THITRONIK Seed Modules (Doinstruct text imports).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Create an Admin Account
+1. In the Supabase Dashboard, go to **Authentication**.
+2. Create a new user (e.g. `admin@thitronik.de`).
+3. Go to the **Table Editor** -> `profiles`.
+4. Change the `rolle` column for your new user from `lernender` to `admin`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Start the Server
+```bash
+npm install
+npm run dev
+```
+Open [http://localhost:3000/de/campus/login](http://localhost:3000/de/campus/login) and log in!
 
-## Learn More
+## 🗺️ Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/[locale]/campus/` - The core application routes
+- `src/components/campus/` - React Components (UI, Gamification, Admin, Lernen)
+- `src/lib/lms/` - Database queries and data-access layer
+- `src/types/lms.ts` - Central domain models and TypeScript interfaces
+- `supabase/migrations/` - SQL schema definitions and seed data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📝 Roadmap & Known Issues
+Please see `docs/ISSUES.md` for the current backlog and next steps.
