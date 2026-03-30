@@ -212,6 +212,21 @@ export function AdminPanel() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F0F0]">
+      {/* LMS-Schnellzugriff Banner */}
+      <div className="bg-[#1D3661] px-5 pt-4 pb-0">
+        <div className="grid grid-cols-2 gap-2 pb-4">
+          {[
+            { label: "Kursverwaltung", path: "./kurse" },
+            { label: "Nutzerverwaltung", path: "./nutzer" },
+          ].map(item => (
+            <button key={item.path} onClick={() => router.push(item.path)}
+              className="h-[44px] rounded-[12px] bg-white/10 text-white text-sm font-semibold active:opacity-70">
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Header */}
       <header className="bg-[#1D3661] text-white px-5 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
